@@ -99,7 +99,6 @@ WARNING
       install_jvm
       setup_language_pack_environment
       setup_export
-      setup_profiled
       allow_git do
         install_bundler_in_app
         build_bundler("development:test")
@@ -108,6 +107,7 @@ WARNING
         install_binaries
         run_assets_precompile_rake_task
       end
+      setup_profiled
       best_practice_warnings
       super
     end
@@ -338,13 +338,6 @@ SHELL
       set_env_override "PATH",      profiled_path.join(":")
 
       add_to_profiled set_default_web_concurrency if env("SENSIBLE_DEFAULTS")
-
-      if ruby_version.jruby?
-        add_to_profiled set_jvm_max_heap
-        add_to_profiled set_java_mem
-        set_env_default "JAVA_OPTS", default_java_opts
-        set_env_default "JRUBY_OPTS", default_jruby_opts
-      end
     end
   end
 
@@ -600,22 +593,6 @@ https://devcenter.heroku.com/articles/bundler-configuration
 WARNING
         end
 
-        if bundler.windows_gemfile_lock?
-          warn(<<-WARNING, inline: true)
-Removing `Gemfile.lock` because it was generated on Windows.
-Bundler will do a full resolve so native gems are handled properly.
-This may result in unexpected gem versions being used in your app.
-In rare occasions Bundler may not be able to resolve your dependencies at all.
-https://devcenter.heroku.com/articles/bundler-windows-gemfile
-WARNING
-
-          log("bundle", "has_windows_gemfile_lock")
-          File.unlink("Gemfile.lock")
-        else
-          # using --deployment is preferred if we can
-          bundle_command += " --deployment"
-        end
-
         topic("Installing dependencies using bundler #{bundler.version}")
         load_bundler_cache
 
@@ -704,6 +681,7 @@ https://devcenter.heroku.com/articles/ruby-versions#your-ruby-version-is-x-but-y
         FileUtils.rm_rf(dir)
       end
       bundler.clean
+      bundler.install
     end
   end
 
