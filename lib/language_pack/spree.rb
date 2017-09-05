@@ -39,7 +39,7 @@ RUBY
   private
 
   def run_assets_precompile_rake_task
-    run_command "bundle exec rails g spree:install --auto-accept --user_class=Spree::User --enforce_available_locales=true --migrate=false --sample=false --seed=false"
+    run_command "bundle exec rails g spree:install --auto-accept --user_class=Spree::User --enforce_available_locales=true --migrate=false --sample=false --seed=false --copy_views=false"
     run_command "bundle exec rails g spree:auth:install --migrate=false"
     super
   end
