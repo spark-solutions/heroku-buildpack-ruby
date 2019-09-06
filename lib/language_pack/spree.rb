@@ -1,8 +1,8 @@
 require 'securerandom'
 require 'language_pack'
-require 'language_pack/rails5'
+require 'language_pack/rails6'
 
-class LanguagePack::Spree < LanguagePack::Rails5
+class LanguagePack::Spree < LanguagePack::Rails6
   def self.use?
     File.exists?('spree.gemspec')
   end
