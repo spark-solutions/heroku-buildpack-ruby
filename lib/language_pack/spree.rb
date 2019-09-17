@@ -46,6 +46,12 @@ RUBY
     super
   end
 
+
+  def db_prepare_test_rake_tasks
+    super
+    run_command "bundle exec rake spree_sample:load"
+  end
+
   def run_command(cmd)
     system(cmd) || raise("#{cmd} failed.")
   end
