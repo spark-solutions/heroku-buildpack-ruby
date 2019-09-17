@@ -49,7 +49,7 @@ RUBY
 
   def db_prepare_test_rake_tasks
     super
-    run_command "bundle exec rake spree_sample:load"
+    #run_command "bundle exec rake spree_sample:load"
   end
 
   def run_command(cmd)
