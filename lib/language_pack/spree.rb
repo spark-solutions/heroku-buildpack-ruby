@@ -23,12 +23,18 @@ class LanguagePack::Spree < LanguagePack::Rails6
 gem 'spree', :path => '.'
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: 'master'
 gem 'spree_gateway', github: 'spree/spree_gateway', branch: 'master'
+gem 'sendgrid-ruby'
+gem 'sidekiq'
       GEMFILE
     end
 
  File.write("config/initializers/devise.rb", <<RUBY)
 Devise.secret_key = #{SecureRandom.hex(50).inspect }
 RUBY
+
+  File.write('config/initializers/sidekiq.rb', <<SIDEKIQ)
+ActiveJob::Base.queue_adapter = :sidekiq
+SIDEKIQ
 
     super
   end
