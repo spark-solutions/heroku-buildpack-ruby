@@ -23,12 +23,31 @@ class LanguagePack::Spree < LanguagePack::Rails6
 gem 'spree', :path => '.'
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: 'master'
 gem 'spree_gateway', github: 'spree/spree_gateway', branch: 'master'
+gem 'sidekiq'
       GEMFILE
     end
 
  File.write("config/initializers/devise.rb", <<RUBY)
 Devise.secret_key = #{SecureRandom.hex(50).inspect }
 RUBY
+
+  File.write('config/initializers/sidekiq.rb', <<SIDEKIQ)
+ActiveJob::Base.queue_adapter = :sidekiq
+SIDEKIQ
+
+  File.open('config/environment.rb', 'a') do |f|
+    f.write(<<MAILER)
+ActionMailer::Base.smtp_settings = {
+  :user_name => ENV['SENDGRID_USERNAME'],
+  :password => ENV['SENDGRID_PASSWORD'],
+  :address => 'smtp.sendgrid.net',
+  :domain => "#{ENV['HEROKU_APP_NAME']}.herokuapp.com",
+  :port => 587,
+  :authentication => :plain,
+  :enable_starttls_auto => true
+}
+MAILER
+  end
 
     super
   end
