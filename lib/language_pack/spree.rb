@@ -21,8 +21,8 @@ class LanguagePack::Spree < LanguagePack::Rails6
     File.open("Gemfile", 'a') do |f|
       f.puts <<-GEMFILE
 gem 'spree', :path => '.'
-gem 'spree_auth_devise', '~> 4.0'
-gem 'spree_gateway', '~> 3.6'
+gem 'spree_auth_devise', '~> 4.1.0.rc1'
+gem 'spree_gateway', '~> 3.7'
 gem 'sidekiq'
       GEMFILE
     end
@@ -59,7 +59,7 @@ MAILER
   private
 
   def run_assets_precompile_rake_task
-    run_command "bundle exec rails g spree:install --auto-accept --user_class=Spree::User --enforce_available_locales=true --migrate=false --sample=false --seed=false --copy_views=false"
+    run_command "bundle exec rails g spree:install --auto-accept --user_class=Spree::User --enforce_available_locales=true --migrate=false --sample=false --seed=false --copy_storefront=false"
     run_command "bundle exec rails g spree:auth:install --migrate=false"
     run_command "bundle exec rails g spree_gateway:install --migrate=false"
     super
