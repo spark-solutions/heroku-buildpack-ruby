@@ -21,8 +21,8 @@ class LanguagePack::Spree < LanguagePack::Rails6
     File.open("Gemfile", 'a') do |f|
       f.puts <<-GEMFILE
 gem 'spree', :path => '.'
-gem 'spree_auth_devise', '~> 4.1.0.rc1'
-gem 'spree_gateway', '~> 3.7'
+gem 'spree_auth_devise', '~> 4.2'
+gem 'spree_gateway', '~> 3.9'
 gem 'sidekiq'
       GEMFILE
     end
